@@ -1,0 +1,61 @@
+name: AI + Mobile Digest
+
+on:
+  workflow_dispatch:          # manual runs (for testing)
+    inputs:
+      mode:
+        description: "daily or weekly"
+        default: "daily"
+        type: choice
+        options: [daily, weekly]
+  schedule:
+    # Times are UTC. Adjust for your timezone / DST.
+    # ~8am US Eastern is roughly 12:30 UTC (EST) / 12:30 = 8:30 EDT.
+    - cron: "30 12 * * 1-4"   # daily skim, Mon-Thu
+    - cron: "0 13 * * 5"      # weekly deep dive, Friday
+
+permissions:
+  contents: write             # needed to commit seen.json back
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Determine mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "DIGEST_MODE=${{ github.event.inputs.mode }}" >> "$GITHUB_ENV"
+          elif [ "${{ github.event.schedule }}" = "0 13 * * 5" ]; then
+            echo "DIGEST_MODE=weekly" >> "$GITHUB_ENV"
+          else
+            echo "DIGEST_MODE=daily" >> "$GITHUB_ENV"
+          fi
+
+      - name: Run digest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: python digest.py
+
+      - name: Commit seen.json
+        run: |
+          if [ -n "$(git status --porcelain seen.json)" ]; then
+            git config user.name  "digest-bot"
+            git config user.email "digest-bot@users.noreply.github.com"
+            git add seen.json
+            git commit -m "chore: update digest dedup state [skip ci]"
+            git push
+          else
+            echo "no change to seen.json"
+          fi
