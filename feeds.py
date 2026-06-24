@@ -30,7 +30,6 @@ FEEDS = [
     {"name": "Google AI",             "url": "https://blog.google/technology/ai/rss/",            "lane": "AI"},
     {"name": "Google DeepMind",       "url": "https://deepmind.google/discover/blog/feed.xml",    "lane": "AI"},
     # -- Independent / analysis --
-    {"name": "Simon Willison",        "url": "https://simonwillison.net/atom/everything/",        "lane": "AI"},
     {"name": "Latent Space",          "url": "https://www.latent.space/feed",                     "lane": "AI"},
     {"name": "The Batch",             "url": "https://www.deeplearning.ai/the-batch/rss.xml",     "lane": "AI"},
     {"name": "Import AI",             "url": "https://importai.substack.com/feed",                "lane": "AI"},
