@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git log *)",
+      "Bash(grep -E \"\\\\.\\(py|json|yml|txt\\)$\")",
+      "Bash(pip list *)",
+      "Bash(grep *)",
+      "Bash(python3 -c \"import feedparser; print\\(feedparser.__version__\\)\")",
+      "Bash(xargs file *)",
+      "Bash(python3 *)",
+      "Bash(git rm *)"
+    ]
+  }
+}

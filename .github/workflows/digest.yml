@@ -15,7 +15,7 @@ on:
     - cron: "0 13 * * 5"      # weekly deep dive, Friday
 
 permissions:
-  contents: write             # needed to commit seen.json back
+  contents: read
 
 jobs:
   digest:
@@ -23,6 +23,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      - name: Restore seen-items cache
+        uses: actions/cache@v4
+        with:
+          path: seen.json
+          key: seen-json-${{ github.run_id }}
+          restore-keys: |
+            seen-json-
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -47,16 +55,4 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: python digest.py
-
-      - name: Commit seen.json
-        run: |
-          if [ -n "$(git status --porcelain seen.json)" ]; then
-            git config user.name  "digest-bot"
-            git config user.email "digest-bot@users.noreply.github.com"
-            git add seen.json
-            git commit -m "chore: update digest dedup state [skip ci]"
-            git push
-          else
-            echo "no change to seen.json"
-          fi
           

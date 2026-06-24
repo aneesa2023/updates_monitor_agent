@@ -1,0 +1,29 @@
+# Runtime state — managed by GitHub Actions cache, not git
+seen.json
+
+# Secrets / local config
+.env
+.env.*
+*.key
+*.pem
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
