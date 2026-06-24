@@ -103,6 +103,10 @@ Edit the `cron:` lines in `.github/workflows/digest.yml` (times are **UTC** — 
 Realistically **~$2–5/month**.
 
 ---
+Example output:
+<img width="1218" height="681" alt="Screenshot 2026-06-24 at 6 07 55 PM" src="https://github.com/user-attachments/assets/d1cfd5af-8727-40f6-b043-8fad79d5548e" />
+
+---
 
 ## Safety notes
 
