@@ -66,15 +66,15 @@ SYSTEM_PROMPT = (
 )
 
 DAILY_TASK = (
-    "From the candidate items below, surface the {n} most significant across four "
-    "lanes — AI/Agents/MCP, Android, iOS, Flutter/Dart — prioritizing in this order: "
+    "From the candidate items below, surface the {n} most significant across five "
+    "lanes — AI/Agents/MCP, Android, iOS, Flutter/Dart, Engineering — prioritizing in this order: "
     "(1) new tool/library/SDK launches, (2) major version releases, (3) new "
     "techniques or best practices, (4) deprecations/breaking changes, then (5) "
     "notable news. For each item: one line on *what it is*, one line on *why it "
     "matters for a mobile+AI dev*, and the link. Group under lane headings; skip "
     "lanes with nothing notable. Keep it tight and scannable. Start with a one-line "
     "header like '*AI + Mobile — Daily Brief, <date>*'."
-).format(n=6)
+).format(n=8)
 
 WEEKLY_TASK = (
     "From the candidate items below, produce a weekly deep dive across AI/Agents/MCP, "
