@@ -9,15 +9,15 @@ digest to Slack via an incoming webhook. No always-on server.
 - `digest.py` — the pipeline (fetch → dedupe → Claude → Slack).
 - `feeds.py` — editable RSS source list. **Verify the URLs resolve.**
 - `requirements.txt` — Python deps.
-- `.github/workflows/digest.yml` — cron schedule + run + dedup commit.
-- `seen.json` — auto-created dedup state (committed by the workflow).
+- `.github/workflows/digest.yml` — cron schedule + run. Dedup state is persisted via GitHub Actions cache (not committed to git).
+- `seen.json` — auto-created dedup state, managed by GitHub Actions cache between runs. Not tracked in git.
 
 ## Setup
 1. **Slack webhook:** api.slack.com/apps → Create New App → From scratch → enable
    **Incoming Webhooks** → Add New Webhook to Workspace → pick your channel →
    copy the `https://hooks.slack.com/services/...` URL.
 2. **Anthropic key:** console.anthropic.com → API keys → create one (add credits).
-3. **Repo:** put these files in a (private) GitHub repo.
+3. **Repo:** put these files in a GitHub repo (public or private — secrets are safe in GitHub Secrets either way).
 4. **Secrets:** repo → Settings → Secrets and variables → Actions → add
    `ANTHROPIC_API_KEY` and `SLACK_WEBHOOK_URL`.
 5. **Customize** `feeds.py`.
